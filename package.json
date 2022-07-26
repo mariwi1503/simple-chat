@@ -1,0 +1,24 @@
+{
+  "name": "simple-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariwi1503/simple-chat.git"
+  },
+  "author": "ary",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mariwi1503/simple-chat/issues"
+  },
+  "homepage": "https://github.com/mariwi1503/simple-chat#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3"
+  }
+}
