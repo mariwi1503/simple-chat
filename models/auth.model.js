@@ -21,5 +21,14 @@ module.exports = {
             throw new Error(error)
         }
     },
-    
+
+    receiverCheck: async (phone) => {
+        try {
+            let query = `select id from users where phone = ?`
+            let [[rows]] = await pool.query(query, [phone])
+            return rows
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }
