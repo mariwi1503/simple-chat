@@ -1,12 +1,15 @@
 "use strict"
 const express = require('express')
-    , messageRoute = require('./routes/chat.route')
-    , port = process.env.PORT || 5000
+    , authRoute = require('./routes/auth.route')
 
+const port = process.env.PORT || 5000
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+// routes
+app.use('/', authRoute)
 
 // global route
 app.get('/', (req, res) => {
