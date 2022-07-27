@@ -25,7 +25,7 @@ module.exports = {
             })
             res.status(200).json({
                 status: 'success',
-                data: conversation_list.length > 0 ? conversation_list : null
+                data: conversation_list.length > 0 ? conversation_list : 'Belum ada conversation'
             })
         } catch (error) {
             res.status(400).json({
