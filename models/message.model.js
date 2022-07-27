@@ -12,11 +12,19 @@ module.exports = {
             throw new Error(error)
         }
     },
-
-    setConversation: async (data) => {
+    getAllMessagePerChat: async (id) => {
         try {
-            let query = 'insert into conversations set ?'
-            let [rows] = await pool.query(query, data)
+            let query = `select * from messages where conversation_id = ?`
+            let [rows] = await pool.query(query, id)
+            return rows
+        } catch (error) {
+            throw new Error(error)
+        }
+    },
+    lastMessageInChat: async (id) => {
+        try {
+            let query = `select * from messages where conversation_id = ? order by created_at desc limit 1`
+            let [rows] = await pool.query(query, id)
             return rows
         } catch (error) {
             throw new Error(error)

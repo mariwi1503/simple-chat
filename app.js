@@ -2,6 +2,7 @@
 const express = require('express')
     , authRoute = require('./routes/auth.route')
     , messageRoute = require('./routes/message.route')
+    , conversationRoute = require('./routes/conversation.route')
 
 const port = process.env.PORT || 5000
 const app = express()
@@ -13,7 +14,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use(
     '/',
     authRoute,
-    messageRoute
+    messageRoute,
+    conversationRoute
 )
 
 // global route
