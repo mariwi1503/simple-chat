@@ -21,9 +21,9 @@ module.exports = {
             throw new Error(error)
         }
     },
-    setMessageRead: async (id) => {
+    setMessageRead: async (conversation_id, user_id) => {
         try {
-            let [rows] = await pool.query('update messages set ? where conversation_id = ?', [{is_read: new Date()}, id])
+            let [rows] = await pool.query('update messages set ? where conversation_id = ? and receiver = ?', [{is_read: new Date()}, conversation_id, user_id])
             return rows
         } catch (error) {
             throw new Error(error)

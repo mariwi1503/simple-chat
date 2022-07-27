@@ -13,6 +13,12 @@ module.exports = {
                 password
             } = req.body
 
+            let validation = /^(\+62|62|0)8[1-9][0-9]{6,9}$/
+            let passed = validation.test(phone)
+            if(!passed || phone.length < 10) throw new Error('Nomor telephone tidak valid')
+            // set phone number to 08xx fromat
+            phone = phone.replace(/(\+62|62)/, '0')
+
             let user_exist = await authModel.getCustomerByPhone(phone)
             if(user_exist) throw new Error('Nomor sudah terdaftar')
 

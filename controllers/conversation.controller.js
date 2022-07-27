@@ -17,7 +17,7 @@ module.exports = {
                 let chats = await messageModel.getAllMessagePerChat(x.id)
                 let unread = 0
                 chats.map((x) => {
-                    if(x.is_read == null) unread += 1
+                    if(x.is_read == null && x.receiver == user_id) unread += 1
                 })
                 x.unread = unread
                 x.last_message = chats[0]
@@ -38,12 +38,15 @@ module.exports = {
     conversationDetail: async (req, res) => {
         try {
             let conversation_id = req.params.id
+            let matched_id = /^\d+$/.test(conversation_id)
+            if(!matched_id) throw new Error('format id salah')
             let result = await conversationModel.getConversationById(conversation_id)
             if(!result) throw new Error('Chat tidak ditemukan')
 
             result.chat = await messageModel.getAllMessagePerChat(conversation_id)
             // set message status as read
-            await messageModel.setMessageRead(conversation_id)
+            let user_id = req.user_id
+            await messageModel.setMessageRead(conversation_id, user_id)
             res.status(200).json({
                 status: 'success',
                 data: result

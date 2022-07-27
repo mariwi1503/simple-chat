@@ -8,6 +8,11 @@ module.exports = {
     sendNewMessage: async (req, res) => {
         try {
             let { receiver_number, message } = req.body
+            let validation = /^(\+62|62|0)8[1-9][0-9]{6,9}$/
+            let passed = validation.test(receiver_number)
+            if(!passed || (passed && receiver_number.length < 10)) throw new Error('Nomor telephone tidak valid')
+            // set number to 08xx fromat
+            receiver_number = receiver_number.replace(/(\+62|62)/, '0')
             let user_id = req.user_id
 
             let receiver_exist = await authModel.receiverCheck(receiver_number)
