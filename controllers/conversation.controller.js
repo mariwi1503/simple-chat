@@ -2,6 +2,7 @@
 
 const conversationModel = require('../models/conversation.model')
     , messageModel = require('../models/message.model')
+    , authModel = require('../models/auth.model')
     , async = require('async')
 
 module.exports = {
@@ -10,9 +11,17 @@ module.exports = {
         try {
             let user_id = req.user_id
             let conversation_list = await conversationModel.conversationList(user_id)
-
             await async.forEachOf(conversation_list, async (x) => {
-                x.chat = await messageModel.lastMessageInChat(x.id)
+                let partner_id = x.user_one == user_id ? x.user_two : x.user_one 
+                x.partner = await authModel.partnerCheck(partner_id)
+                let chats = await messageModel.getAllMessagePerChat(x.id)
+                let unread = 0
+                chats.map((x) => {
+                    if(x.is_read == null) unread += 1
+                })
+                x.unread = unread
+                x.last_message = chats[0]
+
             })
             res.status(200).json({
                 status: 'success',
@@ -29,11 +38,12 @@ module.exports = {
     conversationDetail: async (req, res) => {
         try {
             let conversation_id = req.params.id
-            console.log("🚀 ~ file: conversation.controller.js ~ line 32 ~ conversationDetail: ~ conversation_id", conversation_id)
             let result = await conversationModel.getConversationById(conversation_id)
             if(!result) throw new Error('Chat tidak ditemukan')
 
             result.chat = await messageModel.getAllMessagePerChat(conversation_id)
+            // set message status as read
+            await messageModel.setMessageRead(conversation_id)
             res.status(200).json({
                 status: 'success',
                 data: result

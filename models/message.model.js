@@ -14,17 +14,16 @@ module.exports = {
     },
     getAllMessagePerChat: async (id) => {
         try {
-            let query = `select * from messages where conversation_id = ?`
+            let query = `select * from messages where conversation_id = ? order by created_at desc`
             let [rows] = await pool.query(query, id)
             return rows
         } catch (error) {
             throw new Error(error)
         }
     },
-    lastMessageInChat: async (id) => {
+    setMessageRead: async (id) => {
         try {
-            let query = `select * from messages where conversation_id = ? order by created_at desc limit 1`
-            let [rows] = await pool.query(query, id)
+            let [rows] = await pool.query('update messages set ? where conversation_id = ?', [{is_read: 1}, id])
             return rows
         } catch (error) {
             throw new Error(error)

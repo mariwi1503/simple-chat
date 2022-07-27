@@ -30,5 +30,15 @@ module.exports = {
         } catch (error) {
             throw new Error(error)
         }
+    },
+
+    partnerCheck: async (id) => {
+        try {
+            let query = 'select name, phone from users where id = ?'
+            let [rows] = await pool.query(query, id)
+            return rows
+        } catch (error) {
+            throw new Error(error)
+        }
     }
 }
