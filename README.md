@@ -18,8 +18,6 @@ $ npm run start
 ```
 # API List
 
-NEWS API
-
 | Routes | EndPoint                            | Description                                            |
 | ------ | ----------------------------------- | ------------------------------------------------------ |
 | POST   | /auth/signup                        | register new user                                      |
