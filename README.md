@@ -2,6 +2,7 @@
 
 ## Installation
 ```bash
+$ cd simple-chat
 $ npm install
 ```
 
@@ -28,4 +29,18 @@ NEWS API
 | GET    | /chat/:id                           | conversation detail with all the messages              |
 
 ```
+POST /auth/signup
+req.body = ( name: string, phone: string, password: string )
+
+POST /auth/login
+req.body = ( phone: string, password: string )
+
+POST /message/send
+req.body = (reciver_number: string, message: text)
+
+GET /chat/list
+req.user_id
+
+GET /chat/:id
+req.params = (id: number)
 ```
